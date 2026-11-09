@@ -2,6 +2,11 @@
   "name": "Agente de ventas",
   "image": "mcr.microsoft.com/devcontainers/python:3.13",
   "remoteUser": "vscode",
+  "features": {
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+    }
+  },
   "postCreateCommand": "bash .devcontainer/setup.sh",
   "forwardPorts": [
     8000
