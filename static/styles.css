@@ -63,7 +63,7 @@ code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospac
 code { background: var(--code-bg); color: var(--shiba); padding: 1px 6px; border-radius: 6px; }
 
 /* Texto doge: Comic Neue, colores chillones, inclinado */
-.doge-txt, .doge-cielo span, .bocadillo, .ex-doge, .doge-pop, .bork {
+.doge-txt, .doge-cielo span, .bocadillo, .ex-doge, .bork {
   font-family: "Comic Neue", "Comic Sans MS", "Comic Sans", cursive;
   font-weight: 700;
 }
@@ -289,20 +289,60 @@ main {
 .cuerpo pre code { background: none; padding: 0; color: inherit; }
 td.num { text-align: right; font-variant-numeric: tabular-nums; }
 
-/* Frase doge que aparece al terminar una respuesta */
-.doge-pop {
-  position: absolute;
-  right: 14px;
-  bottom: -14px;
-  padding: 2px 10px;
-  border-radius: 999px;
-  background: var(--panel);
-  border: 2px solid currentColor;
-  font-size: 15px;
-  pointer-events: none;
-  animation: pop .5s cubic-bezier(.2, 1.8, .4, 1) both;
+/* Memes: foto de perro con texto blanco de borde negro */
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 0 auto 22px;
 }
-@keyframes pop { from { opacity: 0; transform: scale(.3) rotate(-20deg); } }
+.meme {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--shiba-claro);
+  border: 4px solid var(--panel);
+  box-shadow: var(--sombra);
+  transform: rotate(-2deg);
+  transition: transform .2s ease;
+  animation: entrar .4s cubic-bezier(.2, 1.5, .5, 1);
+}
+.galeria .meme:nth-child(even) { transform: rotate(2deg); }
+.meme:hover { transform: rotate(0) scale(1.04); z-index: 1; }
+.meme img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.meme.cargando img, .meme.cargando .meme-txt { visibility: hidden; }
+.meme.cargando { animation: brillo 1.2s ease-in-out infinite; }
+@keyframes brillo { 50% { opacity: .55; } }
+.meme-txt {
+  position: absolute;
+  left: 6px; right: 6px;
+  text-align: center;
+  font: 400 clamp(14px, 1.9vw, 21px)/1.05 Impact, "Anton", "Haettenschweiler", sans-serif;
+  text-transform: uppercase;
+  color: #fff;
+  -webkit-text-stroke: 4px #000;
+  paint-order: stroke fill;
+  letter-spacing: .5px;
+  overflow-wrap: break-word;
+}
+.meme-txt.arriba { top: 8px; }
+.meme-txt.abajo { bottom: 8px; }
+.meme.reaccion {
+  width: min(260px, 70%);
+  margin: 14px 0 4px auto;
+  transform: rotate(2deg);
+}
+.meme.reaccion .meme-txt { font-size: 20px; }
+
+/* Foto del shiba en logo, portada y avatar (si la Dog API responde) */
+.con-foto .logo, .con-foto .perro {
+  background: var(--avatar) center / cover;
+  color: transparent;
+  font-size: 0;
+}
+.con-foto .msg.asistente::before { content: ""; background: var(--avatar) center / cover; }
 
 /* Indicador de carga */
 .estado { color: var(--muted); font-size: 14px; font-weight: 600; }
@@ -414,6 +454,8 @@ td.num { text-align: right; font-variant-numeric: tabular-nums; }
 #enviar .bork { font-size: 17px; }
 
 @media (max-width: 560px) {
+  .galeria { grid-template-columns: repeat(2, 1fr); }
+  .meme-txt { font-size: 16px; }
   .doge-cielo span:nth-child(n+5) { display: none; }
   .subtitle { display: none; }
   .heroe { height: 170px; }

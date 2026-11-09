@@ -7,11 +7,11 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;800&display=swap">
-  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Comic+Neue:wght@700&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;800&display=swap">
+  <link rel="stylesheet" href="/static/styles.css?v=4">
   <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js" integrity="sha384-/TQbtLCAerC3jgaim+N78RZSDYV7ryeoBCVqTuzRrFec2akfBkHS7ACQ3PQhvMVi" crossorigin="anonymous" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js" integrity="sha384-+VfUPEb0PdtChMwmBcBmykRMDd+v6D/oFmB3rZM/puCMDYcIvF968OimRh4KQY9a" crossorigin="anonymous" defer></script>
-  <script src="/static/app.js" defer></script>
+  <script src="/static/app.js?v=4" defer></script>
 </head>
 <body>
   <!-- Frases doge flotando de fondo -->
@@ -48,6 +48,7 @@
       </div>
       <h2>Hola, hooman. ¿Qué olfateo hoy?</h2>
       <p>Tengo el hocico metido en <strong>35 tiendas</strong>, de noviembre de 2021 a marzo de 2024. Solo miro, no muerdo: la base de datos es de solo lectura y te enseño cada hueso SQL que desentierro.</p>
+      <div id="galeria" class="galeria" hidden></div>
       <div class="examples">
         <button type="button" class="example" data-pregunta="¿Cuál es el top 5 de tiendas por ventas totales?">
           <span class="ex-emoji" aria-hidden="true">🏆</span>
@@ -66,7 +67,7 @@
           <span><span class="ex-doge">so producto</span>¿Qué clase de producto vende más unidades?</span>
         </button>
       </div>
-      <p class="pie">Ningún doggo ha sido molestado durante el cálculo de estas cifras.</p>
+      <p class="pie">Ningún doggo ha sido molestado durante el cálculo de estas cifras. Fotos: <a href="https://dog.ceo/dog-api/" target="_blank" rel="noopener">Dog API</a>.</p>
     </section>
   </main>
 

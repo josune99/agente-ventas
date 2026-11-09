@@ -75,6 +75,15 @@ app = FastAPI(title="Agente de ventas", lifespan=lifespan)
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=ALLOWED_HOSTS)
 
 
+@app.middleware("http")
+async def revalidar_frontend(request, call_next):
+    # Que el navegador pida siempre la última versión del frontend tras un cambio
+    response = await call_next(request)
+    if request.url.path == "/" or request.url.path.startswith("/static/"):
+        response.headers["Cache-Control"] = "no-cache"
+    return response
+
+
 class MessageIn(BaseModel):
     mensaje: str = Field(min_length=1, max_length=4000)
 

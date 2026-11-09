@@ -57,16 +57,92 @@ function tablaDeFilas(filas) {
 
 // --- Memes ---------------------------------------------------------------
 
-const FRASES_DOGE = ["wow", "much respuesta", "very datos", "such análisis", "so cifras", "amaze", "many filas", "good boy", "10/10 would query again", "bork bork"];
-const COLORES_DOGE = ["#e8590c", "#7048e8", "#0ca678", "#d6336c", "#1c7ed6", "#f08c00", "#ae3ec9"];
+// Fotos de perros de la Dog API (dog.ceo). Si no responde, la web sigue con emojis.
+const API_PERROS = "https://dog.ceo/api";
+
+const MEMES_PORTADA = [
+  ["HOOMAN PREGUNTA", "YO HAGO SELECT"],
+  ["SOLO LECTURA", "NO MUERDO LA BASE DE DATOS"],
+  ["35 TIENDAS", "35 SITIOS QUE OLFATEAR"],
+  ["MUCHO SQL", "MUY CONSULTA. WOW."],
+];
+
+const MEMES_REACCION = [
+  ["CUANDO LA CONSULTA", "DEVUELVE JUSTO LO QUE BUSCABAS"],
+  ["SUCH DATOS", "MUCH WOW"],
+  ["YO DESPUÉS DE", "UN GROUP BY PERFECTO"],
+  ["NO SÉ LO QUE ES UN JOIN", "PERO AQUÍ TIENES TUS CIFRAS"],
+  ["10/10", "WOULD QUERY AGAIN"],
+  ["HE OLFATEADO 697.894 VENTAS", "SOLO PARA TI"],
+  ["GOOD BOY", "GOOD DATA"],
+  ["¿ME DAS UNA GALLETA", "POR ESTE INFORME?"],
+  ["BORK BORK", "(SIGNIFICA: TENDENCIA AL ALZA)"],
+  ["EL BECARIO HUMANO", "AÚN ESTARÍA ABRIENDO EL EXCEL"],
+  ["HE TRAÍDO EL PALO", "Y TAMBIÉN EL ORDER BY"],
+  ["ESTO ES UN ANÁLISIS", "SERIO. MUY SERIO. WOW."],
+];
+
 const aleatorio = (lista) => lista[Math.floor(Math.random() * lista.length)];
 const sinMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function dogePop(msg) {
-  const pop = el("span", "doge-pop", aleatorio(FRASES_DOGE));
-  pop.style.color = aleatorio(COLORES_DOGE);
-  pop.setAttribute("aria-hidden", "true");
-  msg.appendChild(pop);
+let fotos = [];
+let pidiendoFotos = null;
+
+function pedirFotos(n = 12) {
+  pidiendoFotos ??= fetch(`${API_PERROS}/breeds/image/random/${n}`)
+    .then((r) => r.json())
+    .then((d) => { if (d.status === "success") fotos.push(...d.message); })
+    .catch(() => {})
+    .finally(() => { pidiendoFotos = null; });
+  return pidiendoFotos;
+}
+
+async function siguienteFoto() {
+  if (!fotos.length) await pedirFotos();
+  const foto = fotos.shift();
+  if (fotos.length < 4) pedirFotos();
+  return foto;
+}
+
+function crearMeme(foto, [arriba, abajo], clase = "") {
+  const fig = el("figure", `meme cargando ${clase}`);
+  const img = el("img");
+  img.alt = `Perro con el texto «${arriba} ${abajo}»`;
+  img.decoding = "async";
+  img.addEventListener("load", () => fig.classList.remove("cargando"));
+  img.addEventListener("error", () => fig.remove());
+  img.src = foto;
+  fig.append(img, el("span", "meme-txt arriba", arriba), el("span", "meme-txt abajo", abajo));
+  return fig;
+}
+
+async function memeDeReaccion(msg) {
+  const foto = await siguienteFoto();
+  if (foto) msg.appendChild(crearMeme(foto, aleatorio(MEMES_REACCION), "reaccion"));
+}
+
+async function prepararPerros() {
+  // Foto de shiba para el logo, la portada y el avatar del asistente
+  fetch(`${API_PERROS}/breed/shiba/images/random`)
+    .then((r) => r.json())
+    .then((d) => {
+      if (d.status !== "success") return;
+      const img = new Image();
+      img.onload = () => {
+        document.documentElement.style.setProperty("--avatar", `url("${d.message}")`);
+        document.documentElement.classList.add("con-foto");
+      };
+      img.src = d.message;
+    })
+    .catch(() => {});
+
+  const galeria = document.getElementById("galeria");
+  await pedirFotos(16);
+  for (const texto of MEMES_PORTADA) {
+    const foto = fotos.shift();
+    if (foto) galeria.appendChild(crearMeme(foto, texto));
+  }
+  galeria.hidden = !galeria.children.length;
 }
 
 function zoomies() {
@@ -210,7 +286,7 @@ async function preguntar(texto) {
   } finally {
     vista.estado.remove();
     vista.msg.classList.remove("pensando");
-    if (vista.texto) dogePop(vista.msg);
+    if (vista.texto) memeDeReaccion(vista.msg).then(bajarAlFinal);
     ocupado = false;
     enviar.disabled = false;
     entrada.focus();
@@ -247,6 +323,8 @@ document.querySelectorAll(".example").forEach((b) =>
 document.getElementById("nueva").addEventListener("click", () => {
   if (!ocupado) nuevaConversacion().catch((e) => alert(e.message));
 });
+
+prepararPerros();
 
 nuevaConversacion().catch(() => {
   document.getElementById("modelo").textContent = "sin conexión con el servidor";
