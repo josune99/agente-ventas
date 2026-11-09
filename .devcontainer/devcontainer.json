@@ -3,6 +3,15 @@
   "image": "mcr.microsoft.com/devcontainers/python:3.13",
   "remoteUser": "vscode",
   "postCreateCommand": "bash .devcontainer/setup.sh",
+  "forwardPorts": [
+    8000
+  ],
+  "portsAttributes": {
+    "8000": {
+      "label": "Agente de ventas (web)",
+      "onAutoForward": "openBrowser"
+    }
+  },
   "customizations": {
     "vscode": {
       "extensions": [

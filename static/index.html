@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ventas Infernales</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💀</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Shade&family=Barlow+Condensed:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js" integrity="sha384-/TQbtLCAerC3jgaim+N78RZSDYV7ryeoBCVqTuzRrFec2akfBkHS7ACQ3PQhvMVi" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js" integrity="sha384-+VfUPEb0PdtChMwmBcBmykRMDd+v6D/oFmB3rZM/puCMDYcIvF968OimRh4KQY9a" crossorigin="anonymous" defer></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div class="llamas" aria-hidden="true"></div>
+  <div class="ascuas" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">💀</span>
+      <div>
+        <h1>Ventas Infernales</h1>
+        <p class="subtitle">Motor V8 sobre <code>sales_data.db</code> · <span id="modelo">…</span></p>
+      </div>
+    </div>
+    <button id="nueva" class="ghost" type="button">🔥 Arrancar de nuevo</button>
+  </header>
+
+  <main id="chat" aria-live="polite">
+    <section id="bienvenida" class="welcome">
+      <div class="hotrod" aria-hidden="true">
+        <span class="humo">💨</span><span class="coche">🏎️</span><span class="fuego-tubo">🔥</span>
+      </div>
+      <h2>Pisa a fondo y pregunta</h2>
+      <p>35 tiendas, de noviembre de 2021 a marzo de 2024. El agente quema la base de datos en solo lectura y te enseña el SQL que lleva bajo el capó.</p>
+      <div class="examples">
+        <button type="button" class="example" data-pregunta="¿Cuál es el top 5 de tiendas por ventas totales?"><span class="ex-emoji" aria-hidden="true">🏁</span>¿Cuál es el top 5 de tiendas por ventas totales?</button>
+        <button type="button" class="example" data-pregunta="¿Cómo han evolucionado las ventas mensuales en 2023?"><span class="ex-emoji" aria-hidden="true">📈</span>¿Cómo han evolucionado las ventas mensuales en 2023?</button>
+        <button type="button" class="example" data-pregunta="¿Qué porcentaje de las ventas se hizo en promoción?"><span class="ex-emoji" aria-hidden="true">🔥</span>¿Qué porcentaje de las ventas se hizo en promoción?</button>
+        <button type="button" class="example" data-pregunta="¿Qué clase de producto vende más unidades?"><span class="ex-emoji" aria-hidden="true">💀</span>¿Qué clase de producto vende más unidades?</button>
+      </div>
+    </section>
+  </main>
+
+  <form id="form" class="composer">
+    <textarea id="entrada" rows="1" placeholder="Suelta tu pregunta… (Enter acelera · Mayús+Enter salto de línea)" required></textarea>
+    <button id="enviar" type="submit" aria-label="Enviar">🔥</button>
+  </form>
+</body>
+</html>

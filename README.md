@@ -89,4 +89,27 @@ desarrollo ya lo trae predescargado).
 La base SQLite se abre en modo de solo lectura y se devuelven como máximo 100
 filas por consulta.
 
-La versión con interfaz web vive en la rama `codex/web`.
+## Versión web
+
+`web.py` sirve una interfaz de chat en el navegador (backend FastAPI, frontend
+HTML + JS sin frameworks en `static/`). Reutiliza el mismo agente y la misma
+herramienta `query_sales` que la versión de terminal.
+
+```sh
+python web.py                      # http://127.0.0.1:8000
+python web.py --port 8080 --modelo ID_DEL_MODELO
+```
+
+También se puede lanzar con `uvicorn web:app --reload` (el modelo se elige
+entonces con la variable de entorno `MODELO`).
+
+Cada pestaña del navegador abre su propia conversación con el agente. Las
+respuestas llegan en streaming (SSE) y cada consulta SQL que ejecuta el agente
+se muestra plegada junto con las filas devueltas.
+
+API:
+
+- `POST /api/conversaciones` → `{"id", "modelo"}`
+- `POST /api/conversaciones/{id}/mensajes` con `{"mensaje": "..."}` → flujo SSE
+  de eventos `delta`, `tool_start`, `tool_end`, `error` y `done`
+- `DELETE /api/conversaciones/{id}`
