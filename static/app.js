@@ -13,7 +13,9 @@ let ocupado = false;
 
 function renderMarkdown(texto) {
   if (window.marked && window.DOMPurify) {
-    return DOMPurify.sanitize(marked.parse(texto));
+    // Una tilde suelta es "aproximadamente" (~10 %), no un tachado
+    const sinTachados = texto.replace(/(?<!~)~(?!~)/g, "\\~");
+    return DOMPurify.sanitize(marked.parse(sinTachados));
   }
   const div = document.createElement("div");
   div.textContent = texto;
@@ -42,11 +44,37 @@ function tablaDeFilas(filas) {
     columnas.forEach((c) => {
       const v = fila[c];
       const td = tr.insertCell();
-      td.textContent = typeof v === "number" ? v.toLocaleString("es-ES") : v ?? "";
-      if (typeof v === "number") td.className = "num";
+      // Los códigos e identificadores (tienda, SKU, clase…) no llevan separador de miles
+      const esCodigo = /code|number|sku|id$/i.test(c);
+      td.textContent = typeof v === "number" && !esCodigo
+        ? v.toLocaleString("es-ES", { maximumFractionDigits: 2 })
+        : v ?? "";
+      if (typeof v === "number" && !esCodigo) td.className = "num";
     });
   });
   return tabla;
+}
+
+// --- Memes ---------------------------------------------------------------
+
+const FRASES_DOGE = ["wow", "much respuesta", "very datos", "such análisis", "so cifras", "amaze", "many filas", "good boy", "10/10 would query again", "bork bork"];
+const COLORES_DOGE = ["#e8590c", "#7048e8", "#0ca678", "#d6336c", "#1c7ed6", "#f08c00", "#ae3ec9"];
+const aleatorio = (lista) => lista[Math.floor(Math.random() * lista.length)];
+const sinMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function dogePop(msg) {
+  const pop = el("span", "doge-pop", aleatorio(FRASES_DOGE));
+  pop.style.color = aleatorio(COLORES_DOGE);
+  pop.setAttribute("aria-hidden", "true");
+  msg.appendChild(pop);
+}
+
+function zoomies() {
+  if (sinMovimiento) return;
+  const perro = el("span", "zoomies", "🐕");
+  perro.setAttribute("aria-hidden", "true");
+  perro.addEventListener("animationend", () => perro.remove());
+  document.body.appendChild(perro);
 }
 
 // --- Conversación -------------------------------------------------------
@@ -66,10 +94,10 @@ async function nuevaConversacion() {
 }
 
 function crearMensajeAsistente() {
-  const msg = el("article", "msg asistente");
+  const msg = el("article", "msg asistente pensando");
   const herramientas = el("div", "tools");
   const cuerpo = el("div", "cuerpo");
-  const estado = el("div", "estado", "Calentando motores…");
+  const estado = el("div", "estado", "Olfateando la pregunta…");
   msg.append(herramientas, cuerpo, estado);
   chat.appendChild(msg);
   return { msg, herramientas, cuerpo, estado, texto: "", consultas: {} };
@@ -83,7 +111,7 @@ function mostrarConsulta(vista, ev) {
   det.append(resumen, sql);
   vista.herramientas.appendChild(det);
   vista.consultas[ev.id] = det;
-  vista.estado.textContent = "Quemando rueda en la base de datos…";
+  vista.estado.textContent = "Desenterrando huesos de la base de datos… such SQL";
 }
 
 function completarConsulta(vista, ev) {
@@ -103,7 +131,7 @@ function completarConsulta(vista, ev) {
     envoltorio.appendChild(tablaDeFilas(r.rows));
     det.appendChild(envoltorio);
   }
-  vista.estado.textContent = "Derrapando hacia la respuesta…";
+  vista.estado.textContent = "Escribiendo con las patitas… very teclado";
 }
 
 function procesarEvento(vista, ev) {
@@ -133,6 +161,7 @@ async function preguntar(texto) {
   bienvenida.hidden = true;
 
   chat.appendChild(el("article", "msg usuario", texto));
+  zoomies();
   const vista = crearMensajeAsistente();
   bajarAlFinal();
 
@@ -174,12 +203,14 @@ async function preguntar(texto) {
       }
     }
     if (!vista.texto && !vista.msg.querySelector(".error")) {
-      vista.cuerpo.textContent = "El motor se ha calado sin responder. Dale otra vez.";
+      vista.cuerpo.textContent = "Me he distraído con una ardilla y no he respondido nada. ¿Me lanzas la pregunta otra vez?";
     }
   } catch (e) {
-    vista.msg.appendChild(el("div", "error", e.message || "El servidor no arranca: no hay conexión"));
+    vista.msg.appendChild(el("div", "error", e.message || "No encuentro al servidor, se ha escapado del jardín"));
   } finally {
     vista.estado.remove();
+    vista.msg.classList.remove("pensando");
+    if (vista.texto) dogePop(vista.msg);
     ocupado = false;
     enviar.disabled = false;
     entrada.focus();

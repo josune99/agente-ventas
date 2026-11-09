@@ -3,52 +3,76 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ventas Infernales</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💀</text></svg>">
+  <title>Doge Ventas</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Shade&family=Barlow+Condensed:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;800&display=swap">
   <link rel="stylesheet" href="/static/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js" integrity="sha384-/TQbtLCAerC3jgaim+N78RZSDYV7ryeoBCVqTuzRrFec2akfBkHS7ACQ3PQhvMVi" crossorigin="anonymous" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js" integrity="sha384-+VfUPEb0PdtChMwmBcBmykRMDd+v6D/oFmB3rZM/puCMDYcIvF968OimRh4KQY9a" crossorigin="anonymous" defer></script>
   <script src="/static/app.js" defer></script>
 </head>
 <body>
-  <div class="llamas" aria-hidden="true"></div>
-  <div class="ascuas" aria-hidden="true">
-    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  <!-- Frases doge flotando de fondo -->
+  <div class="doge-cielo" aria-hidden="true">
+    <span style="--x:6%;--y:16%;--c:#e8590c;--r:-8deg;--d:0s">wow</span>
+    <span style="--x:80%;--y:13%;--c:#7048e8;--r:6deg;--d:-3s">much ventas</span>
+    <span style="--x:88%;--y:46%;--c:#0ca678;--r:-5deg;--d:-6s">very datos</span>
+    <span style="--x:3%;--y:52%;--c:#d6336c;--r:7deg;--d:-2s">such SQL</span>
+    <span style="--x:12%;--y:84%;--c:#1c7ed6;--r:-4deg;--d:-8s">so promo</span>
+    <span style="--x:74%;--y:80%;--c:#f08c00;--r:5deg;--d:-4s">amaze</span>
+    <span style="--x:46%;--y:93%;--c:#ae3ec9;--r:-6deg;--d:-7s">many tiendas</span>
+    <span style="--x:55%;--y:7%;--c:#2f9e44;--r:3deg;--d:-5s">plz consulta</span>
   </div>
 
   <header class="topbar">
     <div class="brand">
-      <span class="logo" aria-hidden="true">💀</span>
+      <span class="logo" aria-hidden="true">🐕</span>
       <div>
-        <h1>Ventas Infernales</h1>
-        <p class="subtitle">Motor V8 sobre <code>sales_data.db</code> · <span id="modelo">…</span></p>
+        <h1>Doge Ventas</h1>
+        <p class="subtitle"><span class="doge-txt">much análisis · very datos · wow</span> · <span id="modelo">…</span></p>
       </div>
     </div>
-    <button id="nueva" class="ghost" type="button">🔥 Arrancar de nuevo</button>
+    <button id="nueva" class="ghost" type="button"><span aria-hidden="true">🎾</span> Nuevo paseo</button>
   </header>
 
   <main id="chat" aria-live="polite">
     <section id="bienvenida" class="welcome">
-      <div class="hotrod" aria-hidden="true">
-        <span class="humo">💨</span><span class="coche">🏎️</span><span class="fuego-tubo">🔥</span>
+      <div class="heroe" aria-hidden="true">
+        <span class="perro">🐕</span>
+        <span class="bocadillo b1">wow</span>
+        <span class="bocadillo b2">such datos</span>
+        <span class="bocadillo b3">very análisis</span>
+        <span class="bocadillo b4">heckin' SQL</span>
       </div>
-      <h2>Pisa a fondo y pregunta</h2>
-      <p>35 tiendas, de noviembre de 2021 a marzo de 2024. El agente quema la base de datos en solo lectura y te enseña el SQL que lleva bajo el capó.</p>
+      <h2>Hola, hooman. ¿Qué olfateo hoy?</h2>
+      <p>Tengo el hocico metido en <strong>35 tiendas</strong>, de noviembre de 2021 a marzo de 2024. Solo miro, no muerdo: la base de datos es de solo lectura y te enseño cada hueso SQL que desentierro.</p>
       <div class="examples">
-        <button type="button" class="example" data-pregunta="¿Cuál es el top 5 de tiendas por ventas totales?"><span class="ex-emoji" aria-hidden="true">🏁</span>¿Cuál es el top 5 de tiendas por ventas totales?</button>
-        <button type="button" class="example" data-pregunta="¿Cómo han evolucionado las ventas mensuales en 2023?"><span class="ex-emoji" aria-hidden="true">📈</span>¿Cómo han evolucionado las ventas mensuales en 2023?</button>
-        <button type="button" class="example" data-pregunta="¿Qué porcentaje de las ventas se hizo en promoción?"><span class="ex-emoji" aria-hidden="true">🔥</span>¿Qué porcentaje de las ventas se hizo en promoción?</button>
-        <button type="button" class="example" data-pregunta="¿Qué clase de producto vende más unidades?"><span class="ex-emoji" aria-hidden="true">💀</span>¿Qué clase de producto vende más unidades?</button>
+        <button type="button" class="example" data-pregunta="¿Cuál es el top 5 de tiendas por ventas totales?">
+          <span class="ex-emoji" aria-hidden="true">🏆</span>
+          <span><span class="ex-doge">such ranking</span>¿Cuál es el top 5 de tiendas por ventas totales?</span>
+        </button>
+        <button type="button" class="example" data-pregunta="¿Cómo han evolucionado las ventas mensuales en 2023?">
+          <span class="ex-emoji" aria-hidden="true">📈</span>
+          <span><span class="ex-doge">much tendencia</span>¿Cómo han evolucionado las ventas mensuales en 2023?</span>
+        </button>
+        <button type="button" class="example" data-pregunta="¿Qué porcentaje de las ventas se hizo en promoción?">
+          <span class="ex-emoji" aria-hidden="true">🦴</span>
+          <span><span class="ex-doge">very promo</span>¿Qué porcentaje de las ventas se hizo en promoción?</span>
+        </button>
+        <button type="button" class="example" data-pregunta="¿Qué clase de producto vende más unidades?">
+          <span class="ex-emoji" aria-hidden="true">🎾</span>
+          <span><span class="ex-doge">so producto</span>¿Qué clase de producto vende más unidades?</span>
+        </button>
       </div>
+      <p class="pie">Ningún doggo ha sido molestado durante el cálculo de estas cifras.</p>
     </section>
   </main>
 
   <form id="form" class="composer">
-    <textarea id="entrada" rows="1" placeholder="Suelta tu pregunta… (Enter acelera · Mayús+Enter salto de línea)" required></textarea>
-    <button id="enviar" type="submit" aria-label="Enviar">🔥</button>
+    <textarea id="entrada" rows="1" placeholder="Lánzame una pregunta como si fuera una pelota…" title="Enter envía · Mayús+Enter salto de línea" required></textarea>
+    <button id="enviar" type="submit" aria-label="Enviar"><span aria-hidden="true">🦴</span><span class="bork">Bork!</span></button>
   </form>
 </body>
 </html>
