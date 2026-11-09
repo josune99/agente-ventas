@@ -11,6 +11,7 @@ import uuid
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 from pydantic import BaseModel, Field
 
 from agente_ventas import DB_PATH, DEFAULT_MODEL, ROOT, create_client, create_session, get_api_key
@@ -22,6 +23,12 @@ MODEL = os.environ.get("MODELO", DEFAULT_MODEL)
 # Tiempo máximo sin recibir eventos del agente antes de dar el turno por perdido.
 EVENT_TIMEOUT = 180
 MAX_CONVERSATIONS = 50
+# Hosts aceptados: evita que una web ajena use el agente (y tu crédito) por DNS rebinding.
+# En Codespaces el puerto reenviado se sirve como <codespace>-8000.app.github.dev.
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+if os.environ.get("CODESPACES") == "true":
+    ALLOWED_HOSTS.append("*.app.github.dev")
+ALLOWED_HOSTS += [h.strip() for h in os.environ.get("ALLOWED_HOSTS", "").split(",") if h.strip()]
 
 
 class Conversation:
@@ -65,6 +72,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Agente de ventas", lifespan=lifespan)
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=ALLOWED_HOSTS)
 
 
 class MessageIn(BaseModel):
